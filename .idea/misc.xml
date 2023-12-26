@@ -4,6 +4,8 @@
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/maven-javaee-project-02" />
     <file type="web" url="file://$PROJECT_DIR$/maven-javaee-project-03" />
+    <file type="web" url="file://$PROJECT_DIR$/micro-shop/order-service" />
+    <file type="web" url="file://$PROJECT_DIR$/micro-shop/user-service" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
@@ -11,6 +13,7 @@
         <option value="$PROJECT_DIR$/maven-javase-project-01/pom.xml" />
         <option value="$PROJECT_DIR$/maven-javaee-project-02/pom.xml" />
         <option value="$PROJECT_DIR$/maven-javaee-project-03/pom.xml" />
+        <option value="$PROJECT_DIR$/micro-shop/pom.xml" />
       </list>
     </option>
   </component>
