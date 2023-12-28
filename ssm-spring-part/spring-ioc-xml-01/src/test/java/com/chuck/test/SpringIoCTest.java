@@ -2,6 +2,7 @@ package com.chuck.test;
 
 import com.chuck.ioc_03.A;
 import com.chuck.ioc_03.HappyComponent;
+import com.chuck.ioc_04.javaBean;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -38,6 +39,19 @@ public class SpringIoCTest {
         System.out.println(happyComponent1 == happyComponent2);
 
 
+    }
+
+    @Test
+    public void test4(){
+        ClassPathXmlApplicationContext applicationContext =new ClassPathXmlApplicationContext("spring-04.xml");
+
+        javaBean bean = applicationContext.getBean(javaBean.class);
+
+        applicationContext.close();
+
+        ClassPathXmlApplicationContext applicationContext1 = new ClassPathXmlApplicationContext("spring-04.xml");
+        ClassPathXmlApplicationContext applicationContext2 = new ClassPathXmlApplicationContext("spring-04.xml");
+        System.out.println(applicationContext1 == applicationContext2);
     }
 
 }
