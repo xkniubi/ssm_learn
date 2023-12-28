@@ -1,9 +1,0 @@
-com\chuck\ioc_01\DefaultServiceLocator.class
-com\chuck\ioc_02\UserDao.class
-com\chuck\ioc_02\SimpleMovieLister.class
-com\chuck\ioc_01\HappyComponent.class
-com\chuck\ioc_02\MovieFinder.class
-com\chuck\ioc_01\ClientServiceImpl.class
-com\chuck\ioc_03\HappyComponent.class
-com\chuck\ioc_02\UserService.class
-com\chuck\ioc_01\ClientService.class
