@@ -3,6 +3,7 @@ package com.chuck.test;
 import com.chuck.ioc_03.A;
 import com.chuck.ioc_03.HappyComponent;
 import com.chuck.ioc_04.javaBean;
+import com.chuck.ioc_05.JavaBean;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -41,6 +42,9 @@ public class SpringIoCTest {
 
     }
 
+    /**
+     * 周期及作用域
+     */
     @Test
     public void test4(){
         ClassPathXmlApplicationContext applicationContext =new ClassPathXmlApplicationContext("spring-04.xml");
@@ -52,6 +56,19 @@ public class SpringIoCTest {
         ClassPathXmlApplicationContext applicationContext1 = new ClassPathXmlApplicationContext("spring-04.xml");
         ClassPathXmlApplicationContext applicationContext2 = new ClassPathXmlApplicationContext("spring-04.xml");
         System.out.println(applicationContext1 == applicationContext2);
+    }
+    /**
+     * FactoryBean使用
+     */
+    @Test
+    public void test5(){
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring-05.xml");
+        JavaBean bean = applicationContext.getBean(JavaBean.class);
+        System.out.println("javabean = "+ bean);
+
+        Object bean1 = applicationContext.getBean("&javaBean");
+        System.out.println("bean" + bean1);
+
     }
 
 }
