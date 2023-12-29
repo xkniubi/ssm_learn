@@ -1,6 +1,8 @@
 package com.chuck;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.chuck.controller.StudentController;
+import com.chuck.pojo.Student;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -54,6 +56,13 @@ public class JdbcTemplateTest {
 
     }
 
+@Test
+    public void testQueryAll(){
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring-02.xml");
+        StudentController studentController = applicationContext.getBean(StudentController.class);
+        studentController.findAll();
+        applicationContext.close();
+    }
 
 
 
