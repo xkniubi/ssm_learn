@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<mapper namespace="com.chuck.mapper.EmployeeMapper">
+
+
+    <!-- 驼峰式自动映射，在配置文件中设置-->
+    <select id="queryById" resultType="com.chuck.pojo.Employee">
+        select * from
+        t_emp where emp_id = #{id}
+    </select>
+
+    <delete id="deleteById" >
+        delete from t_emp where emp_id = #{id}
+    </delete>
+
+    <select id="queryBySalary" resultType="com.chuck.pojo.Employee">
+        select emp_id empId,emp_name empName, emp_salary empSalary from
+        t_emp where emp_salary = ${salary}
+    </select>
+
+<!--    useGeneratedKeys="true" 是否想要数据库自动增长的主键值
+        keyColumn="emp_id" 主键列的值
+        keyProperty="empId" 接受主键列值的属性-->
+    <insert id="insertEmp" useGeneratedKeys="true" keyColumn="emp_id" keyProperty="empId">
+        insert into t_emp (emp_name , emp_salary) values (#{empName},#{empSalary});
+    </insert>
+
+    <!--
+        传入多个简单类型
+        方案1：注解指定，@Param
+        方案2；mybatis默认机制 arg0 arg1  ....(param1 param2 .....)
+    -->
+    <select id="queryByNameAndSalary" resultType="com.chuck.pojo.Employee">
+        select emp_id empId,emp_name empName, emp_salary empSalary from
+        t_emp where emp_name = #{a} and emp_salary = ${b}
+    </select>
+
+    <!--传入map数据
+        key = map的key即可
+    -->
+    <insert id="insertEmpMap">
+        insert into t_emp (emp_name, emp_salary) values (#{name},#{salary}));
+    </insert>
+    
+    
+    <select id="queryNameById" resultType="java.lang.String">
+        select emp_name from t_emp where emp_id = #{id}
+    </select>
+
+    <select id="querySalaryById" resultType="java.lang.Double">
+        select emp_salary from t_emp where emp_id = #{id}
+    </select>
+
+<!--    查询部门中最高工资和平均工资-->
+    <select id="selectEmpNameAndMaxSalary" resultType="map">
+        SELECT
+        emp_name 员工姓名,
+        emp_salary 员工工资,
+        (SELECT AVG(emp_salary) FROM t_emp) 部门平均工资
+        FROM t_emp WHERE emp_salary=(
+        SELECT MAX(emp_salary) FROM t_emp
+        )
+    </select>
+
+<!--    返回值是集合，resultType不需要指定集合类型，只需要指定泛型即可-->
+<!--    查询工资高于传入值的员工姓名-->
+    <select id="queryNameBySalary" resultType="string">
+        select emp_name from t_emp where emp_salary > #{salary}
+    </select>
+
+<!--    查询全部员工信息-->
+    <select id="queryAll" resultType="employee">
+        select * from t_emp
+    </select>
+
+<!--    非自增长的主键，交给mybatis帮助我们维护-->
+
+    <insert id="insertTeacher">
+<!--        插入之前，先指定一段sql语句，生成一个主键值-->
+<!--        order sql语句实在插入语句之前或之后-->
+<!--        resultType 返回值类型-->
+<!--        keyProperty 查询结果给那个属性赋值-->
+<!--        -->
+<!--        自己维护主键-->
+<!--        String id = UUID.randomUUID().toString().replace("-","")-->
+<!--        teacher.settId(id)-->
+        <selectKey order="BEFORE" resultType="string" keyProperty="tId">
+            select replace(UUID(),'-','');
+        </selectKey>
+        insert into teacher (t_id,t_name)
+            value(#{tId},#{tName});
+    </insert>
+
+<!--    列名和属性不一致如何解决:
+   方案1:别名select t_id tId , t_name tName from teacher where t_id = #{tTd}
+方案2:开启驼峰式映射<setting name="mapUnderscoreToCamelCase" value="true" />
+    t_id tId 自动映射
+    方案3: resultMap自定义映射 （Type Map 二选一）
+    resultType按照规则自动映射︰按照是否开启驼峰式映射,自己映射属性和列名!只能映射一层结构
+
+    -->
+    <resultMap id="tMap" type="teacher">
+        <id column="t_id" property="tId"/>
+        <result column="t_name" property="tName"/>
+    </resultMap>
+</mapper>

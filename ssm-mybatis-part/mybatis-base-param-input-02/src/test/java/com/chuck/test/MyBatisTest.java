@@ -1,6 +1,6 @@
-package com.chuck;
+package com.chuck.test;
 
-import com.chuck.mapper.EmployerMapper;
+import com.chuck.mapper.EmployeeMapper;
 import com.chuck.pojo.Employee;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -35,10 +35,10 @@ public class MyBatisTest {
         SqlSession session = sessionFactory.openSession();
 
         // 3.根据EmployeeMapper接口的Class对象获取Mapper接口类型的对象(动态代理技术)
-        EmployerMapper employerMapper = session.getMapper(EmployerMapper.class);
+        EmployeeMapper employeeMapper = session.getMapper(EmployeeMapper.class);
 
         // 4. 调用代理类方法既可以触发对应的SQL语句
-        Employee employee = employerMapper.queryById(1);
+        Employee employee = employeeMapper.queryById(1);
 
         System.out.println("employee = " + employee);
 
@@ -46,5 +46,35 @@ public class MyBatisTest {
         session.commit(); //提交事务 [DQL不需要,其他需要]
         session.close(); //关闭会话
 
+    }
+
+    @Test
+    public void test_02() throws IOException {
+        // 1.创建SqlSessionFactory对象
+        // ①声明Mybatis全局配置文件的路径
+        String mybatisConfigFilePath = "mybatis-config.xml";
+
+        // ②以输入流的形式加载Mybatis配置文件
+        InputStream inputStream = Resources.getResourceAsStream(mybatisConfigFilePath);
+
+        // ③基于读取Mybatis配置文件的输入流创建SqlSessionFactory对象
+        SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+
+        // 2.使用SqlSessionFactory对象开启一个会话
+        SqlSession session = sessionFactory.openSession();
+
+        // 3.根据EmployeeMapper接口的Class对象获取Mapper接口类型的对象(动态代理技术)
+        EmployeeMapper employeeMapper = session.getMapper(EmployeeMapper.class);
+
+        Employee employee = new Employee();
+        employee.setEmpSalary(888.0);
+        employee.setEmpName("二狗子");
+
+        int i = employeeMapper.insertEmp(employee);
+        System.out.println("i = " + i);
+
+        // 4.关闭SqlSession
+        session.commit(); //提交事务 [DQL不需要,其他需要]
+        session.close(); //关闭会话
     }
 }

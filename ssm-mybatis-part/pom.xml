@@ -9,6 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>mybatis-base-quick-01</module>
+        <module>mybatis-base-param-input-02</module>
     </modules>
     <packaging>pom</packaging>
 
