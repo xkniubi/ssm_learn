@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace等于mapper接口类的全限定名,这样实现对应 -->
+<mapper namespace="com.chuck.mapper.OrderMapper">
+
+<!--    Mapper配置文件中的resultMap标签内-->
+    <!--    |对一|association标签/javaType属性/property属性-->
+    <!--    |对多|collection标签/ofType属性/property属-->
+    <resultMap id="selectOrderWithCustomerResultMapper" type="order">
+        <id column="order_id" property="orderId"/>
+        <association property="customer"  javaType="customer">
+            <id column="customer_id" property="customerId"/>
+        </association>
+    </resultMap>
+    <select id="queryOrderById" resultMap="selectOrderWithCustomerResultMapper">
+        SELECT order_id,order_name,c.customer_id,customer_name
+        FROM t_order o
+        LEFT JOIN t_customer c
+        ON o.customer_id=c.customer_id
+        WHERE o.order_id=#{orderId}
+    </select>
+
+    <resultMap id="queryCustomerFromOrderResultMapper" type="customer">
+        <id column="customer_id" property="customerId"/>
+        <collection property="orderList" ofType="order">
+            <id column="order_id" property="orderId"/>
+        </collection>
+    </resultMap>
+
+    <select id="queryCustomerFromOrder" resultMap="queryCustomerFromOrderResultMapper">
+        SELECT c.customer_id,c.customer_name,o.order_id,o.order_name
+        FROM t_customer c
+        LEFT JOIN t_order o
+        ON c.customer_id=o.customer_id
+        WHERE c.customer_id=#{customerId}
+    </select>
+
+</mapper>
