@@ -1,0 +1,16 @@
+#推荐格式
+server:
+  port: 80
+  servlet:
+    context-path: /boot
+
+chuck:
+  info:
+    name: chuck
+    password: chuck
+    gfs:
+      - 年号
+      - 自己
+spring:
+  profiles:
+    active:
